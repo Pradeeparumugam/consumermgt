@@ -2,6 +2,7 @@ package com.dxctraining.consumermgt.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.dxctraining.consumermgt.dto.ComplaintDto;
 import com.dxctraining.consumermgt.dto.ConsumerDto;
 import com.dxctraining.consumermgt.dto.CreateConsumerRequest;
 import com.dxctraining.consumermgt.entities.Consumer;
@@ -28,9 +28,10 @@ public class ConsumerRestController {
 
 	@PostMapping("/addnew")
 	public ConsumerDto create(@RequestBody CreateConsumerRequest req) {
-		int id = req.getId();
+		
 		String name = req.getName();
-		Consumer c1 = new Consumer(id, name);
+		
+		Consumer c1 = new Consumer(name);
 		c1 = service.addConsumer(c1);
 		ConsumerDto dto=toConsumerDto(c1);
 		return dto;
@@ -38,14 +39,14 @@ public class ConsumerRestController {
 	}
 	@GetMapping("/getconsumer/{id}")
 	public ConsumerDto get(@PathVariable("id") int id) {
-		Consumer c1=service.findById(id);
+		Consumer c1=service.findConsumerById(id);
 		ConsumerDto dto=toConsumerDto(c1);
 		return dto;
 	}
 
 	public ConsumerDto toConsumerDto(Consumer consumer) { 
 		ConsumerDto dto=new ConsumerDto(); 
-		dto.setId(consumer.getCid()); 
+		dto.setId(consumer.getId()); 
 		dto.setName(consumer.getName()); 
 		return dto;
 	}

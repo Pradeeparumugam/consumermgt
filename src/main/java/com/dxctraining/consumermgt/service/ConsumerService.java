@@ -6,5 +6,5 @@ import com.dxctraining.consumermgt.entities.Consumer;
 
 public interface ConsumerService {
 	public Consumer addConsumer(Consumer c1);
-	public Consumer findById(int id);
+	public Consumer findConsumerById(int id);
 }
