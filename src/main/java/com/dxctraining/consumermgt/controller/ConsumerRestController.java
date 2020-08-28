@@ -1,8 +1,12 @@
 package com.dxctraining.consumermgt.controller;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +20,7 @@ import com.dxctraining.consumermgt.dto.CreateConsumerRequest;
 import com.dxctraining.consumermgt.entities.Consumer;
 import com.dxctraining.consumermgt.service.ConsumerService;
 
-
+@Validated
 @RestController
 @RequestMapping("/consumer")
 public class ConsumerRestController {
@@ -28,9 +32,9 @@ public class ConsumerRestController {
 
 	@PostMapping("/addnew")
 	public ConsumerDto create(@RequestBody CreateConsumerRequest req) {
-		
+		@NotBlank
 		String name = req.getName();
-		
+		@NotBlank
 		Consumer c1 = new Consumer(name);
 		c1 = service.addConsumer(c1);
 		ConsumerDto dto=toConsumerDto(c1);
@@ -38,7 +42,7 @@ public class ConsumerRestController {
 
 	}
 	@GetMapping("/getconsumer/{id}")
-	public ConsumerDto get(@PathVariable("id") int id) {
+	public ConsumerDto get(@Valid @NotNull @PathVariable("id") int id) {
 		Consumer c1=service.findConsumerById(id);
 		ConsumerDto dto=toConsumerDto(c1);
 		return dto;
